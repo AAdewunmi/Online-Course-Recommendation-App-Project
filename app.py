@@ -26,8 +26,11 @@ def get_cosine_mat(df):
     cvmat = countvect.fit_transform(df['Clean_title'])
     return cvmat
 
-def cosine__sim_mat():
-    pass
+
+def cosine__sim_mat(cvmat):
+    return cosine_similarity(cvmat)
+
+
 def recommend_course():
     pass
 def extracted_features():
