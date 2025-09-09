@@ -46,8 +46,13 @@ def recommend_course(df, title, cosine_mat, numrec):
     return final_recommended_courses.head(numrec)
 
 
-def extracted_features():
-    pass
+def extracted_features(recdf):
+    course_url = list(recdf['url'])
+    course_title = list(recdf['course_title'])
+    course_price = list(recdf['price'])
+    return course_url, course_title, course_price
+
+
 def search_term():
     pass
 
