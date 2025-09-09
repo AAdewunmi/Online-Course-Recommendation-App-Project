@@ -53,10 +53,10 @@ def extracted_features(recdf):
     return course_url, course_title, course_price
 
 
-def search_term():
-    pass
-
-
+def search_term(term, df):
+    result_df = df[df['course_title'].str.contains(term)]
+    top6 = result_df.sort_values(by='num_subscribers', ascending=False).head(6)
+    return top6
 
 
 @app.route('/', methods=['GET', 'POST'])
