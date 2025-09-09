@@ -15,10 +15,10 @@ def read_data():
     return df
 
 
-# def get_clean_title(df):
-#     df['Clean_title'] = df['course_title'].apply(nfx.remove_stopwords)
-#     df['Clean_title'] = df['title'].apply(nfx.remove_special_characters)
-#     return df
+def get_clean_title(df):
+    df['Clean_title'] = df['course_title'].apply(nfx.remove_stopwords)
+    df['Clean_title'] = df['title'].apply(nfx.remove_special_characters)
+    return df
 
 def get_cosine_mat(df):
    pass
