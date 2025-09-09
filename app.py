@@ -10,6 +10,31 @@ from sklearn.metrics.pairwise import cosine_similarity
 app = Flask(__name__)
 
 
+def read_data():
+    df = pd.read_csv('UdemyCleanedTitle.csv')
+    return df
+
+
+# def get_clean_title(df):
+#     df['Clean_title'] = df['course_title'].apply(nfx.remove_stopwords)
+#     df['Clean_title'] = df['title'].apply(nfx.remove_special_characters)
+#     return df
+
+def get_cosine_mat(df):
+   pass
+
+def cosine__sim_mat():
+    pass
+def recommend_course():
+    pass
+def extracted_features():
+    pass
+def search_term():
+    pass
+
+
+
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
