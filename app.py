@@ -20,8 +20,11 @@ def get_clean_title(df):
     df['Clean_title'] = df['title'].apply(nfx.remove_special_characters)
     return df
 
+
 def get_cosine_mat(df):
-   pass
+    countvect = CountVectorizer()
+    cvmat = countvect.fit_transform(df['Clean_title'])
+    return cvmat
 
 def cosine__sim_mat():
     pass
