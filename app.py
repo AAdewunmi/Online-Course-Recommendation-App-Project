@@ -121,4 +121,3 @@ def dashboard():
     levelcounts = get_level_counts(df)
     subjectcounts = get_subjects_per_level(df)
     year
-
