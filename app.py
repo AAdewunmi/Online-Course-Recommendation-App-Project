@@ -3,8 +3,8 @@ from flask import Flask, request, render_template
 import pandas as pd
 import numpy as np
 import neattext.functions as nfx
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity, linear_kernel
 
 
 app = Flask(__name__)
@@ -112,3 +112,13 @@ def home():
                                            showerror=True,
                                            coursename=titlename)
     return render_template('index.html')
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    df = read_data()
+    valuecounts = get_value_counts(df)
+    levelcounts = get_level_counts(df)
+    subjectcounts = get_subjects_per_level(df)
+    year
+
