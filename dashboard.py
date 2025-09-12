@@ -6,7 +6,7 @@ def get_value_counts(df):
 
 
 def get_level_count(df):
-    return dict(list(df.groupby(['level'])['num_subcribers'].count().items())[1:])
+    return dict(list(df.groupby(['level'])['num_subscribers'].count().items())[1:])
 
 
 def get_subjects_per_level(df):
@@ -18,7 +18,7 @@ def get_subjects_per_level(df):
 
 
 def year_wise_profit(df):
-    df['price'] = df['price'].str.replace('TRUE|Free', '0')
+    df['price'] = df['price'].str.replace('TRUE|Free', '0', regex=True)
     df['price'] = df['price'].astype('float')
     df['profit'] = df['price'] * df['num_subscribers']
 
