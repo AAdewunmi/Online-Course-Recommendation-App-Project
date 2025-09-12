@@ -5,7 +5,8 @@ import numpy as np
 import neattext.functions as nfx
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity, linear_kernel
-
+from dashboard import (get_value_counts, get_level_count,
+                       get_subjects_per_level, year_wise_profit)
 
 app = Flask(__name__)
 
@@ -117,7 +118,13 @@ def home():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     df = read_data()
-    valuecounts = get_value_counts(df)
-    levelcounts = get_level_counts(df)
-    subjectcounts = get_subjects_per_level(df)
-    year
+    value_counts = get_value_counts(df)
+    level_counts = get_level_count(df)
+    subjects_per_level = get_subjects_per_level(df)
+    year_wise_profit_map, subscribers_count_map, profit_month_wise, month_wise_subscribers = year_wise_profit(df)
+    return render_template('dashboard.html',
+                           value_counts=value_counts,
+                           level_counts=level_counts,
+                           subjects_per_level=subjects_per_level,
+                           year_wise_profit_map=year_wise_profit_map,
+                           subscribers_count_map=subscribers_count_map)
