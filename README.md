@@ -8,6 +8,7 @@ Content-based course recommender built on real Udemy-style data. It cleans cours
 
 * Overview
 * Features
+* Technology Stack
 * Project Structure
 * Quickstart
 * Usage
@@ -35,6 +36,49 @@ This project demonstrates an end-to-end recommendation workflow:
 * Minimal web UI for searching/typing a course and getting similar ones.
 * Optional interactive dashboard for exploring the dataset and recommendation quality.
 * Reproducible EDA notebooks.
+
+## Technology Stack
+
+**Language**
+- Python 3.11+ (works on 3.10+)
+
+**Web App**
+- Flask 3.x (routing, request handling)
+- Jinja2 (server-rendered HTML templates)
+
+**Dashboard (optional)**
+- Streamlit 1.x for interactive exploration  
+  _Swap-in alternative:_ Plotly Dash
+
+**Data & ML**
+- pandas, numpy for data wrangling
+- scikit-learn for TF-IDF (`TfidfVectorizer`) and cosine similarity
+- scipy (sparse matrices & linear algebra)
+- joblib for persisting vectorizers/similarity artifacts
+
+**NLP (optional enhancements)**
+- nltk or spaCy for tokenization/stop-words/lemmatization
+- faiss / annoy for approximate nearest neighbors at scale
+
+**Frontend**
+- HTML5/CSS via Jinja2 templates  
+  _Optional:_ Bootstrap/Tailwind via CDN for quick styling
+
+**Testing & Quality**
+- pytest for unit/integration tests
+- coverage / pytest-cov for code coverage
+- black, isort, flake8 (or ruff) for formatting/linting
+- pre-commit hooks to enforce standards locally
+
+**Packaging & Runtime**
+- `requirements.txt` for dependencies
+- Gunicorn (production WSGI server, optional)
+- Dockerfile + docker-compose (optional; planned in roadmap)
+
+**Data Storage**
+- Local CSVs for experimentation (current setup)
+- (Optional) SQLite/PostgreSQL if I later persist courses, users, or feedback
+
 
 ## Project Structure
 
