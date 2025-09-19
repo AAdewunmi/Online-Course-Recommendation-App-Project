@@ -1,549 +1,323 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
 
-     <!-- datasource -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datasource@0.1.0"></script>
-
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
-    <script src="http://d3js.org/d3.v3.min.js"></script>
-
-    <title>Course Recommendation | Dashboard</title>
+  <title>Course Recommendation | Dashboard</title>
 </head>
-
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="/">Udemy Course Recommendation System</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Dashboard</a>
-                    </li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Udemy Course Recommendation System</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" aria-current="page" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-                </ul>
+<div class="container-fluid mt-3">
+  <div class="row">
 
-            </div>
+    <!-- Number of Subscribers Domain Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Subscribers Domain Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="400" width="400" id="chart"></canvas>
         </div>
-    </nav>
-    <div class="row">
-
-        <!-- Number of Subscribers Domain Wise -->
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="card-body">
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Subscribers Domain Wise</label>
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="400" width="400" id="chart"></canvas>
-                </div>
-            </div>
-
-
-        </div>
-
-        
-        <!-- Number of Courses Level Wise -->
-        <div class="col-md-4 col-sm-6">
-
-            <div class="card-body">
-
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Courses Level Wise</label>
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="400" width="400" id="chart2"></canvas>
-                </div>
-            </div>
-
-
-        </div>
-
-        <!-- >Number of Subscribers Year Wise-->
-
-        <div class="col-md-4 col-sm-6">
-
-        
-
-            <div class="card-body">
-
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Subscribers Year Wise</label>
-    
-                
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="200" width="200" id="chart3"></canvas>
-                </div>
-            </div>
-
-
-        </div>
-
-        <!--Profit Year Wise-->
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="card-body">
-
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Profit Gained Year Wise</label>
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="400" width="400" id="chart4"></canvas>
-                </div>
-            </div>
-
-
-        </div>
-
-        <!-- Profit Month Wise -->
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="card-body">
-
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Profit Earned Month Wise</label>
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="400" width="400" id="chart5"></canvas>
-                </div>
-            </div>
-
-
-        </div>
-
-
-        <!--Subscribers Count Month Wise-->
-
-
-        <div class="col-md-4 col-sm-6">
-
-            <div class="card-body">
-
-                <label for="banana" style="text-align:center;font-size:1.5rem;font-weight: bold;">Subscribers Count Month Wise</label>
-                <div class="chart-container my-3" style="position: relative;">
-                    <canvas height="400" width="400" id="chart6"></canvas>
-                </div>
-            </div>
-
-
-
-        </div>
-
-        <!--Number of Subscribers enrolled per subject category-->
-
-        <div class = "col-md-12">
-            <div class="chart-container my-3">
-                <label for="banana" style="text-align:center;font-size:1.3rem;font-weight: bold;">Number of Subscribers enrolled per subject category</label>
-                <canvas id="chart7"></canvas>
-            </div> 
-        </div>
-
-
-
+      </div>
     </div>
 
-    {%block javascript%}
-       
-       <script>
-             
-            var valuecounts = {{valuecounts|safe}};
-            var levelcounts = {{levelcounts|safe}};
-            var subjectsperlevel = {{subjectsperlevel|safe}};
+    <!-- Number of Courses Level Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Courses Level Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="400" width="400" id="chart2"></canvas>
+        </div>
+      </div>
+    </div>
 
-            var subscriberscountmap = {{subscriberscountmap|safe}};
+    <!-- Number of Subscribers Year Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Number of Subscribers Year Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="200" width="200" id="chart3"></canvas>
+        </div>
+      </div>
+    </div>
 
-            var yearwiseprofitmap = {{yearwiseprofitmap|safe}};
+    <!-- Profit Year Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Profit Gained Year Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="400" width="400" id="chart4"></canvas>
+        </div>
+      </div>
+    </div>
 
-            var profitmonthwisemap = {{profitmonthwise|safe}};
-            
-            var monthwisesubmap = {{monthwisesub|safe}};
+    <!-- Profit Month Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Profit Earned Month Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="400" width="400" id="chart5"></canvas>
+        </div>
+      </div>
+    </div>
 
-            
+    <!-- Subscribers Count Month Wise -->
+    <div class="col-md-4 col-sm-6">
+      <div class="card-body">
+        <label style="text-align:center;font-size:1.5rem;font-weight: bold;">Subscribers Count Month Wise</label>
+        <div class="chart-container my-3" style="position: relative;">
+          <canvas height="400" width="400" id="chart6"></canvas>
+        </div>
+      </div>
+    </div>
 
-            var domainname = new Array();
-            var countdomain = new Array();
-            var levelname = new Array();
-            var levelcount = new Array();
+    <!-- Subjects per level (pair counts) -->
+    <div class="col-md-12">
+      <div class="chart-container my-3">
+        <label style="text-align:center;font-size:1.3rem;font-weight: bold;">Number of Subscribers enrolled per subject category</label>
+        <canvas id="chart7"></canvas>
+      </div>
+    </div>
 
-            var levelname2 = new Array();
-            var levelcount2 = new Array();
-            var years = new Array();
-            var profitcount = new Array();
-            var subscriberscount = new Array();
+  </div>
+</div>
 
-            var months = new Array();
-            var profitmonthwise = new Array();
-            var subscriberscountmonth = new Array();
+<script>
+  // Injected maps from Flask (already JSON-safe)
+  var valuecounts         = {{ valuecounts|safe }};          // subject -> subscribers
+  var levelcounts         = {{ levelcounts|safe }};          // level -> courses count
+  var subjectsperlevel    = {{ subjectsperlevel|safe }};     // "Subject_Level" -> count
+  var subscriberscountmap = {{ subscriberscountmap|safe }};  // year -> subscribers
+  var yearwiseprofitmap   = {{ yearwiseprofitmap|safe }};    // year -> profit
+  var profitmonthwisemap  = {{ profitmonthwise|safe }};      // month -> profit
+  var monthwisesubmap     = {{ monthwisesub|safe }};         // month -> subscribers
 
-            // count per domain first chart
+  // Prepare arrays for charts
+  var domainname = Object.keys(valuecounts);
+  var countdomain = domainname.map(k => valuecounts[k]);
 
-            for(const item in valuecounts){
-                domainname.push(item)
-                countdomain.push(valuecounts[item])
-            }
-            
-            //Number of Courses Level Wise
+  var levelname = Object.keys(levelcounts);
+  var levelcount = levelname.map(k => levelcounts[k]);
 
-            for(const item in levelcounts){
-                levelname.push(item)
-                levelcount.push(levelcounts[item])
-            }
+  var levelname2 = Object.keys(subjectsperlevel);
+  var levelcount2 = levelname2.map(k => subjectsperlevel[k]);
 
-           // Subjects per level {last chart}
-            for(const item in subjectsperlevel){
-                levelname2.push(item)
-                levelcount2.push(subjectsperlevel[item])
-            }
+  var years = Object.keys(yearwiseprofitmap);
+  var profitcount = years.map(k => yearwiseprofitmap[k]);
 
-            // YearWise Profit
-            for(const item in yearwiseprofitmap){
-                years.push(item)
-                profitcount.push(yearwiseprofitmap[item])
-            }
-            
-            // YearWise Subscribers Count
+  var subscriberscount = Object.keys(subscriberscountmap).map(k => subscriberscountmap[k]);
 
-            for(const item in subscriberscountmap){
-                subscriberscount.push(subscriberscountmap[item])
-            }
-            
-            //profit monthwise
-            for(const item in profitmonthwisemap){
-                months.push(item)
-                profitmonthwise.push(profitmonthwisemap[item])
-            }
+  var months = Object.keys(profitmonthwisemap);
+  var profitmonthwise = months.map(k => profitmonthwisemap[k]);
 
-            //subscriberscount monthwise
-            for(const item in monthwisesubmap){
-    
-                subscriberscountmonth.push(monthwisesubmap[item])
-            }
+  var subscriberscountmonth = Object.keys(monthwisesubmap).map(k => monthwisesubmap[k]);
 
-            
+  // ----- Color helpers -----
+  const PALETTE = [
+    'rgba(54, 162, 235, 0.6)',   // blue
+    'rgba(255, 99, 132, 0.6)',   // red
+    'rgba(255, 206, 86, 0.6)',   // yellow
+    'rgba(75, 192, 192, 0.6)',   // teal
+    'rgba(153, 102, 255, 0.6)',  // purple
+    'rgba(255, 159, 64, 0.6)',   // orange
+    'rgba(99, 255, 132, 0.6)',   // green
+    'rgba(201, 203, 207, 0.6)'   // grey
+  ];
+  const PALETTE_BORDER = [
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 99, 132, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)',
+    'rgba(99, 255, 132, 1)',
+    'rgba(201, 203, 207, 1)'
+  ];
+  function colorsFor(n) {
+    const bg = [], br = [];
+    for (let i = 0; i < n; i++) {
+      bg.push(PALETTE[i % PALETTE.length]);
+      br.push(PALETTE_BORDER[i % PALETTE_BORDER.length]);
+    }
+    return { bg, br };
+  }
 
-           
+  // Chart 1: Subscribers by Subject (doughnut)
+  (function(){
+    const { bg, br } = colorsFor(domainname.length);
+    new Chart(document.getElementById('chart').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: domainname,
+        datasets: [{
+          data: countdomain,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      }
+    });
+  })();
 
-              // Chart1
+  // Chart 2: Courses by Level (doughnut)
+  (function(){
+    const { bg, br } = colorsFor(levelname.length);
+    new Chart(document.getElementById('chart2').getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: levelname,
+        datasets: [{
+          data: levelcount,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      }
+    });
+  })();
 
-            var ctx = document.getElementById('chart').getContext('2d');
-            var myChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: domainname,
-                        datasets: [{
-                            label: domainname,
-                            data: countdomain,
-                            backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(75, 192, 192)',
-                                'rgb(255, 205, 86)',
-                                'rgb(201, 203, 207)',
-                                'rgb(54, 162, 235)',
-                                'rgba(153, 102, 255)',
-                                'rgba(255, 159, 64)',
-                                'rgba(250, 157, 60)'
-                            ],
-                            hoverOffset: 4
+  // Chart 3: Subscribers by Year (bar)
+  (function(){
+    const { bg, br } = colorsFor(years.length);
+    new Chart(document.getElementById('chart3').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          label: 'Subscribers',
+          data: subscriberscount,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+      }
+    });
+  })();
 
-                        }]
-                    }
-                })
-           
-             
-             
-             // Chart2 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            var ctx = document.getElementById('chart2').getContext('2d');
-            var myChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: levelname,
-                        datasets: [{
-                            label: levelname,
-                            data: levelcount,
-                            backgroundColor: [
-                                'rgb(255, 99, 132)',
-                                'rgb(75, 192, 192)',
-                                'rgb(255, 205, 86)',
-                                'rgb(201, 203, 207)',
-                                'rgb(54, 162, 235)',
-                                'rgba(153, 102, 255)',
-                                'rgba(255, 159, 64)',
-                                'rgba(250, 157, 60)'
-                            ],
-                            hoverOffset: 4
+  // Chart 4: Profit by Year (bar)
+  (function(){
+    const { bg, br } = colorsFor(years.length);
+    new Chart(document.getElementById('chart4').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: years,
+        datasets: [{
+          label: 'Profit',
+          data: profitcount,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+      }
+    });
+  })();
 
-                        }]
-                    }
-                })
+  // Chart 5: Profit by Month (bar)
+  (function(){
+    const { bg, br } = colorsFor(months.length);
+    new Chart(document.getElementById('chart5').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [{
+          label: 'Profit (Month)',
+          data: profitmonthwise,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+      }
+    });
+  })();
 
-            
-            //Chart 3    
+  // Chart 6: Subscribers by Month (bar)
+  (function(){
+    const { bg, br } = colorsFor(months.length);
+    new Chart(document.getElementById('chart6').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [{
+          label: 'Subscribers (Month)',
+          data: subscriberscountmonth,
+          backgroundColor: bg,
+          borderColor: br,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+      }
+    });
+  })();
 
-            var ctx = document.getElementById('chart3').getContext('2d');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: years,
-                    datasets: [{
-                    label: "Number of Subscribers",
-                    data: subscriberscount,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)',
-                        'rgba(250, 157, 60, 0.1)',
-                        'rgba(250, 157, 62, 0.6)',
-                        'rgba(250, 157, 50, 0.4)',
-                        'rgba(250, 157, 40, 0.5)',
-                        'rgba(250, 157, 10, 0.2)',
-                        'rgba(250, 157, 30, 0.3)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(250, 157, 60, 0.1)'
-                    ],
-                    borderWidth: 2.5
-                }]
-            }
-        })
+  // Chart 7: Subjects per Level (line)
+  (function(){
+    const { br } = colorsFor(1);
+    new Chart(document.getElementById('chart7').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: levelname2,
+        datasets: [{
+          label: 'Subject-Level Counts',
+          data: levelcount2,
+          fill: false,
+          borderColor: br[0],
+          backgroundColor: br[0],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        elements: { point: { radius: 3 } },
+        scales: { yAxes: [{ ticks: { beginAtZero: true } }] }
+      }
+    });
+  })();
+</script>
 
-            //Chart 4
-
-            var ctx = document.getElementById('chart4').getContext('2d');
-            var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: years,
-                        datasets: [{
-                        label: "Profit Earned Year Wise",
-                        data: profitcount,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(250, 157, 60, 0.1)',
-                            'rgba(250, 157, 62, 0.6)',
-                            'rgba(250, 157, 50, 0.4)',
-                            'rgba(250, 157, 40, 0.5)',
-                            'rgba(250, 157, 10, 0.2)',
-                            'rgba(250, 157, 30, 0.3)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(250, 157, 60, 0.1)'
-                        ],
-                        borderWidth: 2.5
-                    }]
-                }
-            })
-
-
-            //Chart 5
-            var ctx = document.getElementById('chart5').getContext('2d');
-            var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: months,
-                        datasets: [{
-                        label: "Profit Earned Month Wise",
-                        data: profitmonthwise,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(250, 157, 60, 0.1)',
-                            'rgba(250, 157, 62, 0.6)',
-                            'rgba(250, 157, 50, 0.4)',
-                            'rgba(250, 157, 40, 0.5)',
-                            'rgba(250, 157, 10, 0.2)',
-                            'rgba(250, 157, 30, 0.3)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(250, 157, 60, 0.1)'
-                        ],
-                        borderWidth: 2.5
-                    }]
-                }
-            })
-
-
-             //Chart 6
-            var ctx = document.getElementById('chart6').getContext('2d');
-            var myChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: months,
-                        datasets: [{
-                        label: "Subscriber count Month Wise",
-                        data: subscriberscountmonth,
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(250, 157, 60, 0.1)',
-                            'rgba(250, 157, 62, 0.6)',
-                            'rgba(250, 157, 50, 0.4)',
-                            'rgba(250, 157, 40, 0.5)',
-                            'rgba(250, 157, 10, 0.2)',
-                            'rgba(250, 157, 30, 0.3)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(250, 157, 60, 0.1)'
-                        ],
-                        borderWidth: 2.5
-                    }]
-                }
-            })
-
-
-            // Chart 7
-
-            var ctx = document.getElementById('chart7').getContext('2d');
-            var myChart = new Chart(ctx, {
-                            type: 'line',
-                            data: {
-                                labels: levelname2,
-                                datasets: [
-                                    {
-                                        label: "Number of Subscribers enrolled per subject category",
-                                        data: levelcount2,
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)',
-                                            'rgba(250, 157, 60, 0.1)',
-                                            'rgba(250, 157, 62, 0.6)',
-                                            'rgba(250, 157, 50, 0.4)',
-                                            'rgba(250, 157, 40, 0.5)',
-                                            'rgba(250, 157, 10, 0.2)',
-                                            'rgba(250, 157, 30, 0.3)',
-                                        ],
-                                        borderColor: [
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)',
-                                            'rgba(250, 157, 60, 0.1)'
-                                        ],
-                                        borderWidth: 2.5
-                                    },
-                                    
-
-                                ]
-                            }
-                        
-                    })
-        
-        
-       
-       
-       
-       
-       
-       
-       
-       
-       </script>
-
-
-    {%endblock%}
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
-
 </html>
+
