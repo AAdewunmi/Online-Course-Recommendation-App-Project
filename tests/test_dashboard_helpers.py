@@ -35,3 +35,12 @@ def test_get_value_counts_sums_subscribers_by_subject():
     assert vc.get("Business", 0) == 400
     # IT & Software has 50 subscribers
     assert vc.get("IT & Software", 0) == 50
+
+
+def test_get_level_count_counts_courses():
+    df = _sample_df()
+    lc = get_level_count(df)
+    # Two Beginner courses, one Intermediate, one All Levels
+    assert lc.get("Beginner", 0) == 2
+    assert lc.get("Intermediate", 0) == 1
+    assert lc.get("All Levels", 0) == 1
