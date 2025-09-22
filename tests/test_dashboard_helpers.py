@@ -26,3 +26,12 @@ def _sample_df():
         ],
         "subject": ["Business", "Design", "Business", "IT & Software"]
     })
+
+
+def test_get_value_counts_sums_subscribers_by_subject():
+    df = _sample_df()
+    vc = get_value_counts(df)
+    # Business has 100 + 300 = 400 subscribers
+    assert vc.get("Business", 0) == 400
+    # IT & Software has 50 subscribers
+    assert vc.get("IT & Software", 0) == 50
