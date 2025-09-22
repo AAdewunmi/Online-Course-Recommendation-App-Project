@@ -53,3 +53,16 @@ def test_get_subjects_per_level_pairs():
     assert "Business_Beginner" in pairs
     assert pairs["Business_Beginner"] == 2  # A and C
     assert pairs["Design_Intermediate"] == 1
+
+
+def test_year_wise_profit_and_subscribers_maps():
+    df = _sample_df()
+    profitmap, subscribersmap, profitmonthwise, monthwisesub = year_wise_profit(df)
+    # Subscribers aggregated per year
+    assert subscribersmap.get(2019, 0) == 100
+    assert subscribersmap.get(2020, 0) == 200 + 300 + 50
+    # Profit should be numeric and non-negative
+    assert all(v >= 0 for v in profitmap.values())
+    # Month keys are month names (e.g., 'January', 'May', etc.)
+    assert any(k in profitmonthwise for k in ["January", "May", "July", "March"])
+    assert any(k in monthwisesub for k in ["January", "May", "July", "March"])
