@@ -8,8 +8,15 @@ Provides:
 These tests do not hit the real CSV to keep CI fast and deterministic.
 """
 
+import sys
+from pathlib import Path
 import pytest
 import pandas as pd
+
+# --- Ensure repo root (where app.py & dashboard.py live) is on sys.path ---
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 @pytest.fixture()
