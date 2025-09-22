@@ -44,3 +44,12 @@ def test_get_level_count_counts_courses():
     assert lc.get("Beginner", 0) == 2
     assert lc.get("Intermediate", 0) == 1
     assert lc.get("All Levels", 0) == 1
+
+
+def test_get_subjects_per_level_pairs():
+    df = _sample_df()
+    pairs = get_subjects_per_level(df)
+    # Expect keys like "Business_Beginner", "Design_Intermediate", etc.
+    assert "Business_Beginner" in pairs
+    assert pairs["Business_Beginner"] == 2  # A and C
+    assert pairs["Design_Intermediate"] == 1
