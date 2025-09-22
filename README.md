@@ -1,243 +1,250 @@
-# 👷 Under Construction 🚧
-
 # Online Course Recommendation App
 
-Content-based course recommender built on real Udemy-style data. It cleans course titles, vectorises them (TF-IDF or similar), and serves “more-like-this” recommendations via a simple web UI. The repo also includes notebooks for EDA and a lightweight dashboard for quick data exploration. ([GitHub][1])
+A lightweight Flask application for searching Udemy courses by keyword and exploring dataset insights via an interactive dashboard. The app uses `pandas` for data wrangling and `Chart.js` for visualisations.
+
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white">
+  <img alt="Flask" src="https://img.shields.io/badge/Flask-2.x-000000?logo=flask&logoColor=white">
+  <img alt="pandas" src="https://img.shields.io/badge/pandas-2.x-150458?logo=pandas&logoColor=white">
+  <img alt="scikit-learn" src="https://img.shields.io/badge/scikit--learn-1.x-F7931E?logo=scikitlearn&logoColor=white">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-green">
+</p>
+
+---
 
 ## Table of Contents
 
-* Overview
-* Features
-* Technology Stack
-* Project Structure
-* Quickstart
-* Usage
-* Testing (pytest)
-* Design Notes (Recommendation Approach)
-* Data & Reproducibility
-* Roadmap
-* Contributing
-* License
+* [Overview](#overview)
+* [Features](#features)
+* [Tech Stack](#tech-stack)
+* [Architecture](#architecture)
+* [Dataset](#dataset)
+* [Quick Start](#quick-start)
+* [Project Structure](#project-structure)
+* [Usage](#usage)
+* [Testing](#testing)
+* [Configuration](#configuration)
+* [Screenshots](#screenshots)
+* [Roadmap](#roadmap)
+* [Troubleshooting](#troubleshooting)
+* [Contributing](#contributing)
+* [License](#license)
+
+---
 
 ## Overview
 
-This project demonstrates an end-to-end recommendation workflow:
+The application has two main surfaces:
 
-1. load and clean course data,
-2. build a vector space over course titles (and optionally metadata),
-3. compute similarity,
-4. serve ranked recommendations through a small web app, plus an interactive dashboard for exploration.
-   Files currently include the web app (`app.py`), dashboard (`dashboard.py`), Jupyter notebooks, HTML templates, and CSV datasets. ([GitHub][1])
+1. **Home** – Keyword search across `course_title` (case-insensitive, literal match).
+2. **Dashboard** – Descriptive statistics, including:
+
+   * Number of **Subscribers** Domain (Subject) Wise
+   * Number of **Courses** Level Wise
+   * **Subscribers** Year Wise
+   * **Profit** Year Wise
+   * **Profit** Month Wise
+   * **Subscribers** Month Wise
+
+The repo includes a ready-to-use CSV (`UdemyCleanedTitle.csv`) and simple Flask views that render Bootstrap-powered templates.
+
+---
 
 ## Features
 
-* Content-based recommendations using course title text (extendable to categories, price, ratings).
-* Fast similarity lookup (cosine similarity over TF-IDF).
-* Minimal web UI for searching/typing a course and getting similar ones.
-* Optional interactive dashboard for exploring the dataset and recommendation quality.
-* Reproducible EDA notebooks.
+* 🔎 **Fast keyword search** over course titles
+* 📊 **Interactive charts** (Chart.js) for quick insights
+* 🧹 **Robust CSV handling** (column normalisation, safe parsing)
+* 🧩 **Modular dashboard helpers** (clean Pandas groupbys)
+* 🧪 **Test-ready** structure with `pytest` examples (optional)
 
-## Technology Stack
+---
 
-**Language**
-- Python 3.11+ (works on 3.10+)
+## Tech Stack
 
-**Web App**
-- Flask 3.x (routing, request handling)
-- Jinja2 (server-rendered HTML templates)
+* **Backend:** Flask (Python)
+* **Data:** pandas, numpy
+* **ML/Text utils:** scikit-learn (optional TF-IDF), neattext
+* **Frontend:** Bootstrap 4, Chart.js
 
-**Dashboard (optional)**
-- Streamlit 1.x for interactive exploration  
-  _Swap-in alternative:_ Plotly Dash
+---
 
-**Data & ML**
-- pandas, numpy for data wrangling
-- scikit-learn for TF-IDF (`TfidfVectorizer`) and cosine similarity
-- scipy (sparse matrices & linear algebra)
-- joblib for persisting vectorizers/similarity artifacts
+## Architecture
 
-**NLP (optional enhancements)**
-- nltk or spaCy for tokenization/stop-words/lemmatization
-- faiss / annoy for approximate nearest neighbors at scale
+* `app.py`
 
-**Frontend**
-- HTML5/CSS via Jinja2 templates  
-  _Optional:_ Bootstrap/Tailwind via CDN for quick styling
+  * `/` (Home): reads CSV, performs keyword search in `course_title`, renders `index.html`
+  * `/dashboard`: computes aggregates via `dashboard.py`, renders `dashboard.html`
+* `dashboard.py`
 
-**Testing & Quality**
-- pytest for unit/integration tests
-- coverage / pytest-cov for code coverage
-- black, isort, flake8 (or ruff) for formatting/linting
-- pre-commit hooks to enforce standards locally
+  * Pure-Python helpers that return dictionaries used by the charts
+* `templates/`
 
-**Packaging & Runtime**
-- `requirements.txt` for dependencies
-- Gunicorn (production WSGI server, optional)
-- Dockerfile + docker-compose (optional; planned in roadmap)
+  * `index.html` – search form + results list
+  * `dashboard.html` – six charts driven by injected dictionaries
 
-**Data Storage**
-- Local CSVs for experimentation (current setup)
-- (Optional) SQLite/PostgreSQL if I later persist courses, users, or feedback
+---
 
+## Dataset
 
-## Project Structure
+* **File:** `UdemyCleanedTitle.csv`
+* **Required columns:**
+  `course_title`, `url`, `price`, `num_subscribers`, `level`, `published_timestamp`, `subject`
+* **Notes:**
 
-```
-.
-├─ app.py                     # Web app entrypoint (Flask-style runner)
-├─ dashboard.py               # Interactive dashboard (e.g., Streamlit)
-├─ templates/                 # Jinja2 HTML templates for the web UI
-├─ EDA_On_UdemyDataset.ipynb  # Exploratory data analysis
-├─ Online_Course_Recommendation_Project.ipynb  # Modelling/prototyping
-├─ udemy_course_data.csv      # Raw dataset (sample)
-├─ UdemyCleanedTitle.csv      # Cleaned/derived data (e.g., titles)
-├─ requirements.txt           # Python dependencies
-└─ README.md
-```
+  * `price` is coerced to numeric (non-numeric like “Free/TRUE” become 0)
+  * `published_timestamp` parsed as date (YYYY-MM-DD from `YYYY-MM-DDTHH:MM:SSZ`)
 
-File names and folders reflect what’s currently in the repo. ([GitHub][1])
+---
 
-## Quickstart
+## Quick Start
 
-### Prerequisites
-
-* Python 3.10+ (3.11 recommended)
-* macOS/Linux/Windows
-
-### Setup
+### 1) Clone
 
 ```bash
-# 1) Clone
 git clone https://github.com/AAdewunmi/Online-Course-Recommendation-App-Project.git
 cd Online-Course-Recommendation-App-Project
+```
 
-# 2) Create & activate a virtual environment
-python -m venv .venv
-# macOS/Linux:
-source .venv/bin/activate
-# Windows (PowerShell):
-.venv\Scripts\Activate.ps1
+### 2) Create & activate a virtual environment
 
-# 3) Install dependencies
+```bash
+python3 -m venv venv
+source venv/bin/activate           # macOS/Linux
+# .\venv\Scripts\activate          # Windows (PowerShell)
+```
+
+### 3) Install dependencies
+
+```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### Run the Web App
-
-Most small Flask apps will run directly:
+If you don’t have a `requirements.txt`, install the essentials:
 
 ```bash
+pip install flask pandas numpy scikit-learn neattext
+```
+
+### 4) Run the app
+
+```bash
+export FLASK_APP=app.py            # macOS/Linux
+export FLASK_ENV=development
+flask run
+
+# or simply
 python app.py
-# or (if the app uses Flask CLI)
-# export FLASK_APP=app.py && flask run
-# Windows (PowerShell): $env:FLASK_APP="app.py"; flask run
 ```
 
-Then open the URL printed in your terminal (commonly [http://127.0.0.1:5000](http://127.0.0.1:5000)).
-
-### Run the Dashboard (optional)
-
-If `dashboard.py` uses Streamlit, run:
-
-```bash
-streamlit run dashboard.py
-```
-
-This will open a local browser window with interactive charts/filters.
-
-## Usage
-
-* Open the web app.
-* Enter a course title or pick from examples (if provided).
-* Submit to view top-N similar courses with basic metadata.
-
-Tip: If you change the data CSVs, re-run the app so the vectoriser/similarity index is rebuilt.
-
-## Testing (pytest)
-
-Even for small data apps, tests are non-negotiable. Add a `tests/` package with unit tests for:
-
-* text cleaning/tokenisation,
-* vectoriser building (shape, non-empty vocabulary),
-* similarity ranking (self-similarity highest, deterministic top-k),
-* simple web route smoke tests.
-
-Suggested layout:
-
-```
-tests/
-  test_text_cleaning.py
-  test_vectoriser.py
-  test_similarity.py
-  test_app_routes.py
-```
-
-Install pytest (if not already in `requirements.txt`) and run:
-
-```bash
-pip install pytest
-pytest -q
-```
-
-Example assertions to include:
-
-* Empty/short titles are handled without raising.
-* Two identical titles return cosine similarity ≈ 1.0.
-* Known query returns expected top-1 candidate.
-
-## Design Notes (Recommendation Approach)
-
-**Pipeline**
-
-1. **Clean/normalise** titles (lowercasing, punctuation removal, optional stop-words).
-2. **Vectorise** with TF-IDF over unigrams/bigrams; tune `min_df`, `max_df`, `ngram_range`.
-3. **Similarity** via cosine similarity; precompute sparse matrix or use on-the-fly top-k with `sklearn.metrics.pairwise`.
-4. **Ranking**: return top-k excluding the query item; optionally re-rank by auxiliary signals (rating, enrollments).
-5. **Serving**: keep vectoriser and matrix in memory; expose a route that accepts a query and returns top-k.
-
-**Why content-based first?**
-
-* Works without user histories.
-* Transparent and easy to explain.
-* Fast to iterate and productionise.
-
-**Extensions**
-
-* Add fields (category/subject, price, rating) to the vector space via feature union.
-* Add query expansion or approximate nearest neighbours (e.g., FAISS) for large datasets.
-* Introduce collaborative filtering once you have user-item interactions.
-
-## Data & Reproducibility
-
-The repository includes CSVs for local experimentation (`udemy_course_data.csv`, `UdemyCleanedTitle.csv`). The notebooks (`EDA_On_UdemyDataset.ipynb`, `Online_Course_Recommendation_Project.ipynb`) document the cleaning and modelling steps so results can be reproduced and audited. ([GitHub][1])
-
-When you change data:
-
-* Re-run the modelling notebook to re-generate cleaned artifacts.
-* Keep a data dictionary in the repo root (`DATA.md`) describing columns and assumptions.
-
-## Roadmap
-
-* [ ] Add proper error handling and input validation in the web layer.
-* [ ] Persist vectoriser and similarity artifacts (e.g., `joblib`) for faster cold starts.
-* [ ] Add ANN index for scalability (FAISS / ScaNN).
-* [ ] Add basic analytics (top queries, CTR) to evaluate recommendation quality.
-* [ ] Dockerfile + Compose for one-command local setup.
-* [ ] CI with `pytest` and coverage gate.
-
-## Contributing
-
-1. Fork and create a feature branch.
-2. Write tests for any change that touches logic.
-3. Keep functions small and documented; prefer composition over giant scripts.
-4. Run `pytest -q` before opening a PR.
-
-## License
-
-Add a `LICENSE` file (MIT or Apache-2.0 are common). Update this section once chosen.
+Open: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 ---
 
-[1]: https://github.com/AAdewunmi/Online-Course-Recommendation-App-Project "GitHub - AAdewunmi/Online-Course-Recommendation-App-Project: Online Course Recommendation App ||"
+## Project Structure
+
+```
+Online-Course-Recommendation-App-Project/
+├─ app.py
+├─ dashboard.py
+├─ UdemyCleanedTitle.csv
+├─ templates/
+│  ├─ index.html
+│  └─ dashboard.html
+├─ static/                      # (optional)
+├─ requirements.txt             # (recommended)
+├─ tests/
+├─ test_app_routes.py
+├─ test_dashboard_helpers.py
+└─ conftest.py
+```
+
+---
+
+## Usage
+
+### Home (Search)
+
+* Navigate to `/`
+* Enter keywords (e.g. “excel”, “python”, “finance”)
+* Results show course titles with a **View Course** button linking to `url`
+
+### Dashboard (Descriptive Stats)
+
+* Navigate to `/dashboard`
+* Six charts render using aggregated dictionaries injected by Flask:
+
+  * `valuecounts`, `levelcounts`, `subjectsperlevel`
+  * `yearwiseprofitmap`, `subscriberscountmap`
+  * `profitmonthwise`, `monthwisesub`
+
+---
+
+## Testing
+
+Run tests:
+
+```bash
+pytest -q
+```
+
+---
+
+## Configuration
+
+No environment variables are required for basic usage. Place `UdemyCleanedTitle.csv` in the repository root (or update the path in `app.py`).
+
+---
+
+## Screenshots
+
+> Add your screenshots/gifs here once the app is running locally.
+
+* **Home (Search)**
+
+<img width="1910" height="673" alt="Image" src="https://github.com/user-attachments/assets/b9c1d814-3610-4566-89cb-115e8219f8be" />
+
+* **Dashboard (Charts)**
+
+<img width="1906" height="761" alt="Image" src="https://github.com/user-attachments/assets/3922351b-d956-4c67-bcd1-ab83d34b41ff" />
+
+---
+
+## Roadmap
+
+* TF-IDF–based **“Similar Courses”** recommendations as a secondary mode
+* Search over additional fields (e.g., subject, level)
+* Pagination / client-side filtering for large result sets
+* Dockerfile + Compose for one-command setup
+* GitHub Actions for CI (`pytest`, lint)
+
+---
+
+## Troubleshooting
+
+* **Black & white charts**: ensure you’re using the latest `dashboard.html` with color palette (Chart.js dataset `backgroundColor`/`borderColor` explicitly set).
+* **KeyError on columns**: confirm the CSV contains required columns:
+  `course_title, url, price, num_subscribers, level, published_timestamp, subject`
+* **Unicode/CSV errors**: try `encoding="utf-8"` in `pd.read_csv` or clean the CSV.
+
+---
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue to discuss what you’d like to change. If you add dependencies, update `requirements.txt`.
+
+**Suggested workflow**
+
+1. Fork the repo
+2. Create a feature branch: `git checkout -b feat/something`
+3. Commit changes with clear messages
+4. Add/Update tests
+5. Open a PR
+
+---
+
+## License
+
+This project is licensed under the **MIT License**. See `LICENSE` for details.
 
