@@ -6,5 +6,5 @@ numpy==1.26.4
 scikit-learn==1.5.1
 
 # Testing
-pytest==8.3.2
+pytest==9.0.3
 pytest-cov==5.0.0
